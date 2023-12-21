@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import {  Image } from 'react-native';
 import MapView, { Marker } from "react-native-maps";
 import { createStackNavigator } from "@react-navigation/stack";
 import Coupens from "./Coupens";
@@ -35,6 +36,19 @@ function Home() {
     latitudeDelta: 20,
     longitudeDelta: 20,
   });
+
+  const [station1, setStation1] = useState({
+    latitude: 11.0614634,
+    longitude: 77.0371916,
+    latitudeDelta: 20,
+    longitudeDelta: 20,
+  });
+  const [station2, setStation2] = useState({
+    latitude: 11.0387418,
+    longitude: 77.0374052,
+    latitudeDelta: 20,
+    longitudeDelta: 20,
+  });
   const userLocation = async () => {
     let { status } = await Location.requestBackgroundPermissionsAsync();
     if (status !== "granted") {
@@ -55,9 +69,7 @@ function Home() {
   const executeUserLocation = () => {
     userLocation();
   };
-  useEffect(()=>{
-    userLocation();
-  },[])
+
 
 
   const Reduce = ()=>{
@@ -77,6 +89,13 @@ function Home() {
       </View>
       <MapView style={styles.map} region={mapRegion}>
        {isMarker && <Marker coordinate={mapRegion} title="Marker"></Marker>} 
+       <Marker coordinate={station1} title="Marker">
+       <Image source={require('../Station/station.jpg')} style={styles.markerImage} />
+       </Marker>
+       <Marker coordinate={station2} title="Marker" pinColor="green">
+       <Image source={require('../Station/station.jpg')} style={styles.markerImage} />
+
+       </Marker>
       </MapView>
       <View style={styles.top}>
         <View style={styles.total}>
@@ -194,5 +213,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     marginBottom: 0,
+  },
+  markerImage: {
+    width: 32, // Adjust the width and height according to your marker image size
+    height: 32,
   },
 });
